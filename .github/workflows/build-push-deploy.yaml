@@ -25,6 +25,9 @@ on:
         type: boolean
         default: false
         required: false
+      build-args:
+        type: string
+        required: false
 
 jobs:
   build-push-deploy:
@@ -56,6 +59,7 @@ jobs:
           push: true
           context: ${{ inputs.docker-context-path }}
           tags: ${{ steps.image-metadata.outputs.full-image-tags }}
+          build-args: ${{ inputs.build-args }}
       - run: |
           echo IMAGE_NAME=${IMAGE_NAME}
           for tag in ${IMAGE_TAGS[@]}; do
