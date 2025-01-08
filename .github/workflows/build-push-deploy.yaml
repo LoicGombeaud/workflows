@@ -50,7 +50,7 @@ jobs:
           ADD_DATE_TAG: ${{ inputs.add-date-tag }}
           IMAGE_TAGS: ${{ inputs.image-tags }}
       - id: image-metadata
-        uses: ./.github/actions/image-metadata
+        uses: LoicGombeaud/image-metadata@main
         with:
           image-repository: ${{ inputs.image-repository }}
           image-tags: ${{ steps.add-date-tag-if-needed.outputs.image-tags }}
