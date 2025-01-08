@@ -13,6 +13,9 @@ on:
       keel-fqdn:
         type: string
         required: true
+      keel-user:
+        type: string
+        required: true
       docker-context-path:
         type: string
         required: false
@@ -67,12 +70,13 @@ jobs:
           echo IMAGE_NAME=${IMAGE_NAME}
           for tag in ${IMAGE_TAGS[@]}; do
             curl \
-              -u plan-de-circulation:${{ secrets.keel-password }} \
+              -u ${KEEL_USER}:${{ secrets.keel-password }} \
               -d "{\"name\":\"${IMAGE_NAME}\", \"tag\":\"${tag}\"}" \
               -H "Content-Type: application/json" \
-              -X POST https://$KEEL_FQDN/v1/webhooks/native
+              -X POST https://${KEEL_FQDN}/v1/webhooks/native
           done
         env:
           IMAGE_NAME: ${{ steps.image-metadata.outputs.image-name }}
           IMAGE_TAGS: ${{ steps.add-date-tag-if-needed.outputs.image-tags }}
           KEEL_FQDN: ${{ inputs.keel-fqdn }}
+          KEEL_USER: ${{ inputs.keel-user }}
